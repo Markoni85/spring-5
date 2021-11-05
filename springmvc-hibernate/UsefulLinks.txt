@@ -1,0 +1,5 @@
+1) https://www.javaguides.net/2018/10/spring-mvc-5-hello-world-example.html
+
+2) https://www.baeldung.com/spring-web-contexts
+
+3) https://www.baeldung.com/spring-mvc-tutorial

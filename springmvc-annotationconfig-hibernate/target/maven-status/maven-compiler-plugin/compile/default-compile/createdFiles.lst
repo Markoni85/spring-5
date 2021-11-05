@@ -1,0 +1,10 @@
+org\springframework\learn\dao\SingerDao.class
+org\springframework\learn\config\AnnotationsBasedApplicationInitializer.class
+org\springframework\learn\config\RootConfig.class
+org\springframework\learn\config\WebMvcConfig.class
+org\springframework\learn\model\Album.class
+org\springframework\learn\controller\SingerController.class
+org\springframework\learn\dao\SingerDaoImpl.class
+org\springframework\learn\config\WebServletContextInitializer.class
+org\springframework\learn\model\Singer.class
+org\springframework\learn\service\SingerService.class
