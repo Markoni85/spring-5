@@ -1,0 +1,62 @@
+    <div class="container FullWidth" ng-controller="masterDataCtrl">  
+      <div class="row">
+		<div class="navbar navbar-default" role="navigation">
+		    <div class="container-fluid">
+		        <!--div class="navbar-header">
+		            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		                <span class="sr-only">Toggle navigation</span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		        </div-->
+		        <div class="navbar-collapse collapse">
+		            <ul class="nav navbar-nav">
+		                <li  ng-class="{ active: selected == 'formbuilder' }"><img src="assets/img/Dynforms-Logo.png" alt="UiForm"> </li>
+		                <li  ng-class="{ active: selected == 'formbuilder' }"><a ui-sref="formbuilder"><b>{{ applicationDisplayName }}</b></a></li>
+		            </ul>
+		        </div><!--/.nav-collapse -->
+		    </div><!--/.container-fluid -->
+		</div>
+  	  </div>
+
+  	  <div class="help-block alert alert-success" ng-show="isDataSaved" id="divSuccess">
+  	  		<a href="#" class="close" data-dismiss="alert">&times;</a>
+			<strong>Success!&nbsp;</strong>{{successMsg}}
+	  </div>
+	  <div class="alert alert-danger" ng-show="isError" id="divError">
+  	  		<a href="#" class="close" data-dismiss="alert">&times;</a>
+			<strong>Error!&nbsp;</strong>{{errorMsg}} 
+	  </div>
+  	  <div class="row col-md-12">
+		  <div class="col-md-3">
+   	        <table class="table table-hover table-striped table-condensed">
+   	        	<tbody>
+					<tr ng-hide="isDisabled" >
+						<td>Design Of Forms: </td>
+						<td><a ui-sref="formbuilder.listDesignOfForms( { app_name: '{{ applicationName }}' })">List</a></td> 
+						<td>|</td> 
+						<td><a ui-sref="formbuilder.renderDesignOfForms( { app_name: '{{ applicationName }}', formid: '0' })">Create</a></td>
+						<td>|</td> 
+						<td><a ui-sref="formbuilder.renderQuickDesignOfForms( { app_name: '{{ applicationName }}' })">Quick Create</a></td>
+	                </tr>
+	            </tbody>	            	
+	            <tbody ng-repeat="menuEntry in menuEntries | filter:query">
+	                <tr><td><span style="font-weight:bold">{{menuEntry.group}}</span></td></tr>
+	                <tr ng:repeat="menuEntryList in menuEntry.tableList">
+						<td>{{menuEntryList.displayName}}: </td>
+						<td><a ui-sref="formbuilder.listAttributes( {app_name: '{{ applicationName }}', formid: '{{menuEntryList.id}}' } )">List</a></td> 
+						<td>|</td> 
+						<td><a ui-sref="formbuilder.renderAttributes( {app_name: '{{ applicationName }}', formid: '{{menuEntryList.id}}', dataid: '0' })">Create</a></td>					
+					</tr>
+	            </tbody>
+	        </table>
+		  </div>
+		  <div class="col-md-9">
+				<div ui-view></div>
+		  </div>
+		  <div class="col-md-3">
+		  </div>
+      </div>   
+	</div>
+

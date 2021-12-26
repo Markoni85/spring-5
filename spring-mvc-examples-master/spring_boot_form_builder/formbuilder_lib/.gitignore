@@ -1,0 +1,9 @@
+/target
+/.settings
+/logs_and_files
+/war
+.classpath
+.project
+/.sonar
+.springBeans
+/target/
