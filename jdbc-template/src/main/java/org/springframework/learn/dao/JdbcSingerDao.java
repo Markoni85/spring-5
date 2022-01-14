@@ -44,23 +44,22 @@ public class JdbcSingerDao implements SingerDao, InitializingBean{
 			List<Singer> singers = namedParameterJdbcTemplate.query(
 					sql,
 					namedParameters, 
-					new ResultSetExtractor<List<Singer>>() {
-						List<Singer> singers = new ArrayList<Singer>();
+					(rs) -> {
+						List<Singer> resultData = new ArrayList<Singer>();
 						
-						public List<Singer> extractData(ResultSet rs) throws SQLException, DataAccessException {
-							while(rs.next()) {
-								Singer s = new Singer();
-								s.setId(rs.getLong("id"));
-								s.setFirstName(rs.getString("first_name"));
-								s.setLastName(rs.getString("last_name"));
-								s.setBirthDate(rs.getDate("birth_date"));
-								
-								singers.add(s);
-							}
+						while(rs.next()) {
+							Singer s = new Singer();
+							s.setId(rs.getLong("id"));
+							s.setFirstName(rs.getString("first_name"));
+							s.setLastName(rs.getString("last_name"));
+							s.setBirthDate(rs.getDate("birth_date"));
 							
-							return singers;
+							resultData.add(s);
 						}
-					});
+							
+						return resultData;
+					}
+				);
 			
 			return singers;
 		} catch (Exception e) {

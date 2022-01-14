@@ -1,0 +1,12 @@
+CREATE TABLE Cart (
+  id int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE Items (
+  id int NOT NULL AUTO_INCREMENT,
+  cart_id int NOT NULL,
+  NAME VARCHAR(40) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT items_ibfk_1 FOREIGN KEY (cart_id) REFERENCES Cart (id)
+);

@@ -1,31 +1,51 @@
 package org.springframework.learn.dao; 
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.learn.model.Album;
 import org.springframework.learn.model.Singer;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Repository
 public class SingerDaoImpl implements SingerDao {
 
 	@Autowired
+	// @Resource(name = "sessionFactory")
 	private SessionFactory factory;
 	
+	@Transactional(readOnly = true)
 	@Override
 	public List<Singer> findAll() {
 		Session session = getSession();
 		
-	    CriteriaBuilder builder = session.getCriteriaBuilder();
-	    CriteriaQuery<Singer> criteria = builder.createQuery(Singer.class);
-	    criteria.from(Singer.class);
-	    List<Singer> data = session.createQuery(criteria).getResultList();
-	    return data;
+		Query<Singer> hqlQuerry = session.createQuery("from Singer s where s.firstName =:name");
+		hqlQuerry.setParameter("name", "Eric");
+		
+        Singer data =  hqlQuerry.getSingleResult();
+        
+        if(data != null) {
+        	System.out.println("Singer id " + data.getId());        	
+        }
+        else {
+        	System.out.println("No singer found");
+        }
+	    
+        //
+	    session.delete(data);
+	    
+	    session.flush();
+	    
+	    return null;
 		
 	}
 
