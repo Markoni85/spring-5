@@ -28,24 +28,14 @@ public class SingerDaoImpl implements SingerDao {
 	public List<Singer> findAll() {
 		Session session = getSession();
 		
-		Query<Singer> hqlQuerry = session.createQuery("from Singer s where s.firstName =:name");
+		Query<Singer> hqlQuerry = session.createQuery("from Singer s "
+				+ "left join fetch s.albums a "
+			    + "where s.firstName like :name");
 		hqlQuerry.setParameter("name", "Eric");
 		
-        Singer data =  hqlQuerry.getSingleResult();
-        
-        if(data != null) {
-        	System.out.println("Singer id " + data.getId());        	
-        }
-        else {
-        	System.out.println("No singer found");
-        }
+        List<Singer> data =  hqlQuerry.getResultList();
 	    
-        //
-	    session.delete(data);
-	    
-	    session.flush();
-	    
-	    return null;
+	    return data;
 		
 	}
 

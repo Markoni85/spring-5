@@ -2,9 +2,9 @@ package org.springframework.learn.controller.config;
 
 import javax.sql.DataSource;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -17,9 +17,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
+@EnableTransactionManagement
+@ComponentScan(basePackages = "org.springframework.learn")
 public class AppConfig {
 
-//	  @Bean public DataSource dataSource() { 
+//	  @Bean 
+//	  public DataSource dataSource() { 
 //		  BasicDataSource dataSource = new BasicDataSource(); 
 //		  dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 //		  dataSource.setUrl("jdbc:mysql://localhost:3306/musicdb?useSSL=false");
@@ -28,30 +31,30 @@ public class AppConfig {
 //		  return dataSource; 
 //	  }
 	 
-//	@Bean
-//	public DataSource dataSource() {
-//		try {
-//			EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
-//			return dbBuilder.setType(EmbeddedDatabaseType.H2).
-//					addScript("classpath:db/schema.sql")
-//					.addScript("classpath:db/data.sql")
-//			.build();
-//
-//		} catch (Exception e) {
-//			System.err.println("Embedded DataSource bean cannot be created!");
-//			return null;
-//		}
-//	}
+	@Bean
+	public DataSource dataSource() {
+		try {
+			EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
+			return dbBuilder.setType(EmbeddedDatabaseType.H2).
+					addScript("classpath:db/schema.sql")
+					.addScript("classpath:db/data.sql")
+			.build();
 
-	 @Bean public DataSource dataSource() { 
-		 BasicDataSource dataSource = new BasicDataSource(); 
-		 
-		 dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	     dataSource.setUrl("jdbc:mysql://localhost:3306/musicdb?useSSL=false");
-	     dataSource.setUsername("root"); dataSource.setPassword("Lozinka1");
-	    
-	     return dataSource;
-	 }
+		} catch (Exception e) {
+			System.err.println("Embedded DataSource bean cannot be created!");
+			return null;
+		}
+	}
+
+//	 @Bean public DataSource dataSource() { 
+//		 BasicDataSource dataSource = new BasicDataSource(); 
+//		 
+//		 dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//	     dataSource.setUrl("jdbc:mysql://localhost:3306/musicdb?useSSL=false");
+//	     dataSource.setUsername("root"); dataSource.setPassword("Lozinka1");
+//	    
+//	     return dataSource;
+//	 }
 	
 	private Properties hibernateProperties() {
 		Properties hibernateProp = new Properties();

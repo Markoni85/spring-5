@@ -6,7 +6,7 @@ import javax.activation.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.learn.model.Singer;
-import org.springframework.learn.service.SingerService;
+import org.springframework.learn.service.SingerServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SingerController {
 	
 	@Autowired
-	private SingerService service;
+	private SingerServiceImpl service;
 
 	@GetMapping("/")
 	public String Test() {

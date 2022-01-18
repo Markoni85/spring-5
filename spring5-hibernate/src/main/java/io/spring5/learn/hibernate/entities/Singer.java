@@ -6,8 +6,24 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "singer")
+@NamedQueries({
+	@NamedQuery(name="singer.findAll", query = "select s from Singer s"),
+	@NamedQuery(name="singer.findSingerById", 
+	query = "select distinct s from Singer s " 
+	+ "left join fetch s.albums a "
+	+ "left join fetch s.instruments i "
+	+ " where s.id = :id"),
+	@NamedQuery(name="singer.findAllWithAlbum", 
+	query = "select distinct s from Singer s " 
+	+ "left join s.albums a "
+	+ "left join s.instruments i")
+})
+@SqlResultSetMapping(name = "singerResult", entities = @EntityResult(entityClass = Singer.class))
 public class Singer {
 
 	private Long id;
@@ -70,7 +86,7 @@ public class Singer {
 		this.albums = albums;
 	}
 
-	@OneToMany(mappedBy = "singer", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "singer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public Set<Album> getAlbums() {
 		return albums;
 	}
@@ -78,7 +94,10 @@ public class Singer {
 	private Set<Instrument> instruments = new HashSet<>();
 
 	@ManyToMany
-	@JoinTable(name = "singer_instrument", joinColumns = @JoinColumn(name = "SINGER_ID"), inverseJoinColumns = @JoinColumn(name = "INSTRUMENT_ID"))
+	@JoinTable(name = "singer_instrument", 
+			   joinColumns = @JoinColumn(name = "SINGER_ID"), 
+			   inverseJoinColumns = @JoinColumn(name = "INSTRUMENT_ID")
+			)
 	public Set<Instrument> getInstruments() {
 		return instruments;
 	}
