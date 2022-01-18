@@ -1,11 +1,13 @@
-package io.spring5.learn.hibernate;
+package io.spring5.learn.hibernate.config;
 
 import java.util.Properties;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -20,6 +22,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class AppConfig {
 
+	private static Logger logger = LoggerFactory.getLogger(AppConfig.class);
+	
+	@Autowired
+	private HibernateConfig hibernateConfig;
+	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
 		LocalContainerEntityManagerFactoryBean factoryBean = new 
@@ -44,8 +51,11 @@ public class AppConfig {
 	
 	Properties additionalProperties() {
 	    Properties properties = new Properties();
-	    properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-	    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+	    properties.setProperty("hibernate.hbm2ddl.auto", hibernateConfig.getHbm2ddlAuto());
+	    properties.setProperty("hibernate.max_fetch_depth", hibernateConfig.getMaxFetchDepth().toString());
+	    properties.setProperty("hibernate.jdbc.batch_size", hibernateConfig.getBatchSize().toString());
+	    properties.setProperty("hibernate.jdbc.fetch_size", hibernateConfig.getFetchSize().toString());
+	    properties.setProperty("hibernate.dialect", hibernateConfig.getDialect());
 	       
 	    return properties;
 	}
